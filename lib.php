@@ -98,6 +98,7 @@ class repository_pandavideo extends repository {
         $list = [];
         $folderid = optional_param("p", false, PARAM_TEXT);
         $folders = pandarepository::get_folders();
+        $videos = pandarepository::get_videos($page, 100, $searchtext);
 
         foreach ($folders->folders as $folder) {
             if ($folder->parent_folder_id == $folderid) {
@@ -110,8 +111,6 @@ class repository_pandavideo extends repository {
                 ];
             }
         }
-
-        $videos = pandarepository::get_videos($page, 100, $searchtext);
         foreach ($videos->videos as $video) {
             if ($video->folder_id == $folderid) {
                 $list[] = [
