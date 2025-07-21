@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['configplugin'] = 'Panda Video Files';
+$string['pandavideo:view'] = 'View Panda Video';
 $string['pluginname'] = 'Panda Video Repository';
 $string['privacy:metadata'] = 'The Panda Video Repository does not store or send your data';
 $string['root_folder'] = 'Root folder';
