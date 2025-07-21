@@ -220,4 +220,13 @@ class repository_pandavideo extends repository {
     public function contains_private_data() {
         return false;
     }
+
+    /**
+     * is_enable
+     *
+     * @return bool
+     */
+    public function is_enable() {
+        return isset($config->panda_token[20]);
+    }
 }
