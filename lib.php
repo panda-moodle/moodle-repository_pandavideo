@@ -95,6 +95,14 @@ class repository_pandavideo extends repository {
     private function search_videos($searchtext, $page, $pasta = -1) {
         global $OUTPUT;
 
+        $acceptedtypes  = optional_param_array('accepted_types', '*', PARAM_TEXT);
+        $mimetype = "video/mp4";
+        $extension = "";
+        if($acceptedtypes[0] == ".panda"){
+            $mimetype = "video/panda";
+            $extension = ".panda";
+        }
+
         $list = [];
         $folderid = optional_param("p", false, PARAM_TEXT);
         $folders = pandarepository::get_folders();
@@ -115,9 +123,9 @@ class repository_pandavideo extends repository {
             if ($video->folder_id == $folderid) {
                 $list[] = [
                     "shorttitle" => $video->title,
-                    "title" => "{$video->title}",
-                    "mimetype" => "Video file (MP4)",
-                    "thumbnail_title" => $video->title,
+                    "title" => "{$video->title}{$extension}",
+                    "mimetype" => $mimetype,
+                    "thumbnail_title" => "{$video->title}{$extension}",
                     "thumbnail" => $video->thumbnail,
                     "icon" => $video->thumbnail,
                     "datecreated" => strtotime($video->created_at),
@@ -200,7 +208,14 @@ class repository_pandavideo extends repository {
      * @return array
      */
     public function supported_filetypes() {
-        return ["video"];
+        $mimetypes = get_mimetypes_array();
+        if (!isset($mimetypes["panda"])) {
+            core_filetypes::add_type("panda", "video/panda", "unknown");
+        }
+        return [
+            "video",       // Videos.
+            "video/panda", // Panda Video.
+        ];
     }
 
     /**
