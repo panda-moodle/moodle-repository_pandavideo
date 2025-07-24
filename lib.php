@@ -242,6 +242,7 @@ class repository_pandavideo extends repository {
      * @return bool
      */
     public function is_enable() {
+        $config = get_config("pandavideo");
         return isset($config->panda_token[20]);
     }
 }
