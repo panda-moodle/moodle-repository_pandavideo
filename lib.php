@@ -98,7 +98,7 @@ class repository_pandavideo extends repository {
         $acceptedtypes  = optional_param_array('accepted_types', '*', PARAM_TEXT);
         $mimetype = "video/mp4";
         $extension = "";
-        if($acceptedtypes[0] == ".panda"){
+        if ($acceptedtypes[0] == ".panda") {
             $mimetype = "video/panda";
             $extension = ".panda";
         }
