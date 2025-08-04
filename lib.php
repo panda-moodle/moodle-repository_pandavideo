@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_pandavideo\panda\repository as pandarepository;
+use repository_pandavideo\pandarepository;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -43,8 +43,8 @@ class repository_pandavideo extends repository {
      *
      * @param string $encodedpath
      * @param string $page
-     *
      * @return array
+     * @throws Exception
      */
     public function get_listing($encodedpath = "", $page = "") {
         return $this->search("", 0);
@@ -55,8 +55,8 @@ class repository_pandavideo extends repository {
      *
      * @param string $searchtext
      * @param int $page
-     *
-     * @return array|mixed
+     * @return array
+     * @throws Exception
      */
     public function search($searchtext, $page = 0) {
         global $SESSION;
@@ -83,7 +83,6 @@ class repository_pandavideo extends repository {
         return $ret;
     }
 
-
     /**
      * Private method to search remote videos
      *
@@ -95,7 +94,7 @@ class repository_pandavideo extends repository {
     private function search_videos($searchtext, $page, $pasta = -1) {
         global $OUTPUT;
 
-        $acceptedtypes  = optional_param_array('accepted_types', '*', PARAM_TEXT);
+        $acceptedtypes = optional_param_array("accepted_types", "*", PARAM_TEXT);
         $mimetype = "video/mp4";
         $extension = "";
         if ($acceptedtypes[0] == ".panda") {
@@ -152,6 +151,7 @@ class repository_pandavideo extends repository {
      * @param array $folders
      * @param string $folderid
      * @return array
+     * @throws Exception
      */
     private function get_folder_path($folders, $folderid) {
         global $OUTPUT;
@@ -185,27 +185,17 @@ class repository_pandavideo extends repository {
     }
 
     /**
-     * Youtube plugin doesn't support global search
+     * PandaVideo plugin doesn't support global search
      */
     public function global_search() {
         return false;
     }
 
     /**
-     * get type option name function
-     *
-     * This function is for module settings.
-     *
-     * @return array
-     */
-    public static function get_type_option_names() {
-        return array_merge(parent::get_type_option_names(), ["key"]);
-    }
-
-    /**
      * file types supported by pandavideo plugin
      *
      * @return array
+     * @throws Exception
      */
     public function supported_filetypes() {
         $mimetypes = get_mimetypes_array();
@@ -242,7 +232,75 @@ class repository_pandavideo extends repository {
      * @return bool
      */
     public function is_enable() {
-        $config = get_config("pandavideo");
-        return isset($config->panda_token[20]);
+        return true;
+    }
+
+    /**
+     * To check whether the user is logged in.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function check_login() {
+        $pandatoken = get_config("repository_pandavideo", "panda_token");
+        return isset($pandatoken[20]);
+    }
+
+    /**
+     * Show the login screen, if required
+     *
+     * @return Array|void
+     * @throws Exception
+     */
+    public function print_login() {
+        $authurl = new moodle_url("/admin/repository.php", ["action" => "edit", "repos" => "pandavideo"]);
+        if ($this->options["ajax"]) {
+            return [
+                "login" => [
+                    (object)[
+                        "type" => "popup",
+                        "url" => $authurl->out(false),
+                    ],
+                ],
+            ];
+        } else {
+            $strpandatoken = get_string("panda_token", "repository_pandavideo");
+            $strlogin = get_string("login", "repository");
+            echo "<p>{$strpandatoken}</p>\n<p><a target='_blank' href='{$authurl->out()}'>{$strlogin}</a></p>";
+        }
+    }
+
+    /**
+     * get type option name function
+     *
+     * This function is for module settings.
+     *
+     * @return array
+     */
+    public static function get_type_option_names() {
+        return ["panda_token", "pluginname"];
+    }
+
+    /**
+     * type_config_form
+     *
+     * @param MoodleQuickForm $mform
+     * @param string $classname
+     * @return void
+     * @throws Exception
+     */
+    public static function type_config_form($mform, $classname = "repository") {
+        parent::type_config_form($mform, $classname);
+        $pandatoken = get_config("repository_pandavideo", "panda_token");
+        if (empty($pandatoken)) {
+            $pandatoken = "panda-xxxxx";
+        }
+
+        $title = get_string("panda_token", "repository_pandavideo");
+        $mform->addElement("text", "panda_token", $title, ["size" => "90"]);
+        $mform->setType("panda_token", PARAM_TEXT);
+        $mform->setDefault("panda_token", $pandatoken);
+
+        $mform->addElement("static", "pandatokendesk", "", get_string("panda_token_desc", "repository_pandavideo"));
     }
 }

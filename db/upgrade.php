@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang pt_br.
+ * Upgrade file
  *
  * @package   repository_pandavideo
  * @copyright 2025 Panda Video {@link https://pandavideo.com.br}
@@ -23,13 +23,27 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * function xmldb_repository_pandavideo_upgrade
+ *
+ * @param int $oldversion
+ * @return bool
+ * @throws Exception
+ */
+function xmldb_repository_pandavideo_upgrade($oldversion) {
+    if ($oldversion < 2025080400) {
+        $pandatoken = get_config("pandavideo", "panda_token");
+        if (isset($pandatoken[20])) {
+            set_config("panda_token", $pandatoken, "repository_pandavideo");
+        } else {
+            $pandatoken = get_config("supervideo", "panda");
+            if (isset($pandatoken[20])) {
+                set_config("panda_token", $pandatoken, "repository_pandavideo");
+            }
+        }
 
-$string['configplugin'] = 'Panda Video Files';
-$string['panda_token'] = 'Access Token';
-$string['panda_token_desc'] = 'Enter the authentication token provided by the Panda Videos platform to enable secure integration with Moodle.<br>Try it free for 14 days at <a href="https://pandavideo.com.br/?ref=mjy1ndz" target="_blank" rel="noopener noreferrer">pandavideo.com.br</a></p>';
-$string['pandavideo:view'] = 'View Panda Video';
-$string['pluginname'] = 'Panda Video Repository';
-$string['privacy:metadata'] = 'The Panda Video Repository does not store or send your data';
-$string['root_folder'] = 'Root folder';
-$string['search'] = 'Search Vídeos in Panda Video';
+        upgrade_plugin_savepoint(true, 2025080400, "repository", "pandavideo");
+    }
+
+    return true;
+}
