@@ -32,5 +32,5 @@ $plugin->component = "repository_pandavideo";
 $plugin->maturity = MATURITY_STABLE;
 
 $plugin->dependencies = [
-    "mod_pandavideo" => 2025072000,
+    "mod_pandavideo" => 2025080400,
 ];
