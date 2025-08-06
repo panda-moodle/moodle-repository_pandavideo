@@ -97,9 +97,9 @@ class repository_pandavideo extends repository {
         $acceptedtypes = optional_param_array("accepted_types", "*", PARAM_TEXT);
         $mimetype = "video/mp4";
         $extension = "";
-        if ($acceptedtypes[0] == ".panda") {
-            $mimetype = "video/panda";
-            $extension = ".panda";
+        if ($acceptedtypes[0] == ".pandavideo") {
+            $mimetype = "video/pandavideo";
+            $extension = ".pandavideo";
         }
 
         $list = [];
@@ -199,12 +199,12 @@ class repository_pandavideo extends repository {
      */
     public function supported_filetypes() {
         $mimetypes = get_mimetypes_array();
-        if (!isset($mimetypes["panda"])) {
-            core_filetypes::add_type("panda", "video/panda", "unknown");
+        if (!isset($mimetypes["pandavideo"])) {
+            core_filetypes::add_type("pandavideo", "video/pandavideo", "unknown");
         }
         return [
-            "video",       // Videos.
-            "video/panda", // Panda Video.
+            "video",            // Videos.
+            "video/pandavideo", // Panda Video.
         ];
     }
 
