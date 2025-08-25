@@ -156,7 +156,7 @@ class pandarepository {
         if ($savecache && $cache->has($cachekey)) {
             return json_decode($cache->get($cachekey));
         } else {
-            $pandatoken = get_config("repository_pandavideo", "panda_token");
+            $pandatoken = get_config("pandavideo", "panda_token");
             if (!isset($pandatoken[20])) {
                 throw new Exception("Token is missing: " . get_string("token_desc", "mod_pandavideo"));
             }
@@ -208,7 +208,7 @@ class pandarepository {
     public static function getplayer(string $pandaurl, $pandavideoview = null) {
         global $OUTPUT;
 
-        $pandatoken = get_config("repository_pandavideo", "panda_token");
+        $pandatoken = get_config("pandavideo", "panda_token");
         if (!isset($pandatoken[20])) {
             try {
                 $pandavideo = self::oembed($pandaurl);

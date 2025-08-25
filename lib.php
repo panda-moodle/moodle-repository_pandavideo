@@ -242,7 +242,7 @@ class repository_pandavideo extends repository {
      * @throws Exception
      */
     public function check_login() {
-        $pandatoken = get_config("repository_pandavideo", "panda_token");
+        $pandatoken = get_config("pandavideo", "panda_token");
         return isset($pandatoken[20]);
     }
 
@@ -291,7 +291,7 @@ class repository_pandavideo extends repository {
      */
     public static function type_config_form($mform, $classname = "repository") {
         parent::type_config_form($mform, $classname);
-        $pandatoken = get_config("repository_pandavideo", "panda_token");
+        $pandatoken = get_config("pandavideo", "panda_token");
         if (empty($pandatoken)) {
             $pandatoken = "panda-xxxxx";
         }
