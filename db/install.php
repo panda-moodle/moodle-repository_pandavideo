@@ -52,15 +52,5 @@ function xmldb_repository_pandavideo_install() {
     ];
     $repositoryinstances->id = $DB->insert_record("repository_instances", $repositoryinstances);
 
-    $pandatoken = get_config("pandavideo", "panda_token");
-    if (isset($pandatoken[20])) {
-        set_config("panda_token", $pandatoken, "repository_pandavideo");
-    } else {
-        $pandatoken = get_config("supervideo", "panda");
-        if (isset($pandatoken[20])) {
-            set_config("panda_token", $pandatoken, "repository_pandavideo");
-        }
-    }
-
     return true;
 }

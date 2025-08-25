@@ -31,19 +31,5 @@
  * @throws Exception
  */
 function xmldb_repository_pandavideo_upgrade($oldversion) {
-    if ($oldversion < 2025080600) {
-        $pandatoken = get_config("pandavideo", "panda_token");
-        if (isset($pandatoken[20])) {
-            set_config("panda_token", $pandatoken, "repository_pandavideo");
-        } else {
-            $pandatoken = get_config("supervideo", "panda");
-            if (isset($pandatoken[20])) {
-                set_config("panda_token", $pandatoken, "repository_pandavideo");
-            }
-        }
-
-        upgrade_plugin_savepoint(true, 2025080600, "repository", "pandavideo");
-    }
-
     return true;
 }
