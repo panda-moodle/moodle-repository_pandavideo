@@ -202,7 +202,7 @@ class repository_pandavideo extends repository {
             core_filetypes::add_type("pandavideo", "video/pandavideo", "unknown");
         }
         return [
-            "video",            // Videos.
+            "video", // Videos.
             "video/pandavideo", // Panda Video.
         ];
     }
