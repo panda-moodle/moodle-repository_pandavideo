@@ -239,4 +239,29 @@ class pandarepository {
 
         return $OUTPUT->render_from_template("mod_pandavideo/embed", $mustachecontext);
     }
+
+    /**
+     * Get oEmbed player
+     *
+     * @param $pandaurl
+     * @return mixed
+     * @throws Exception
+     */
+    public static function oembed($pandaurl) {
+        if (preg_match('#^https://([^/]+)/embed/\?v=([a-f0-9-]+)$#i', $pandaurl, $matches)) {
+            $dashboard = urlencode($pandaurl);
+            $endpoint = "/oembed?url={$dashboard}";
+            $response = self::http_get($endpoint, self::$baseurl, true);
+            return $response;
+        } else {
+            $videoid = self::get_video_id($pandaurl);
+            if (!$videoid) {
+                throw new Exception("VideoId not found");
+            }
+            $dashboard = urlencode("https://dashboard.pandavideo.com.br/videos/{$videoid}");
+            $endpoint = "/oembed?url={$dashboard}";
+            $response = self::http_get($endpoint, self::$baseurl, true);
+            return $response;
+        }
+    }
 }
