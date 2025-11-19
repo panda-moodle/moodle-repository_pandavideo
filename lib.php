@@ -37,7 +37,6 @@ require_once("{$CFG->dirroot}/repository/lib.php");
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class repository_pandavideo extends repository {
-
     /**
      * Get file listing.
      *

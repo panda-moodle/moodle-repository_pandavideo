@@ -33,7 +33,6 @@ use stdClass;
  * API Class
  */
 class pandarepository {
-
     /** @var string */
     private static string $baseurl = "https://api-v2.pandavideo.com.br";
 
