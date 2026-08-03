@@ -1,0 +1,23 @@
+# (RFC §4.1). Authors update their listing with an ordinary commit; camp
+# ingests and hash-pins it at each tagged release. Listing for repository_pandavideo.
+
+name: "Panda Video Repository"
+summary: "Find and add your Panda Video library through the file picker."
+description: |
+  Find and add your Panda Video library through the file picker.
+
+  Requires the mod_pandavideo and media_pandavideo plugins to be installed and configured. ' An API key must be configured in mod_pandavideo for proper functionality.
+
+  Key capabilities:
+  - When creating or editing an activity, browse the repositories and select a video from your Panda Video account.
+  - The media_pandavideo plugin will automatically generate and display the video player in the configured location.
+
+  Supported Moodle versions in the supplied plugin list: 3.10 - 5.0.
+
+labels:
+  - external-account
+  - paid-service
+category: "integrations"
+links:
+  docs: https://github.com/panda-moodle/moodle-repository_pandavideo#readme
+  issues: https://github.com/panda-moodle/moodle-repository_pandavideo/issues
